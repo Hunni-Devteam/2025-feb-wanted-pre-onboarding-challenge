@@ -3,5 +3,7 @@
 ## Week 1-2 Examples
 
 ```
-node SimplifiedPromise.js
+node ./SimplifiedPromise.js
+
+node ./RunIterableAsync.js
 ```
