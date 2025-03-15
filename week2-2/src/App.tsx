@@ -1,33 +1,36 @@
 import { useState } from 'react'
-import reactLogo from './assets/react.svg'
-import viteLogo from '/vite.svg'
 import './App.css'
+import SimpleModal from './SimpleModal'
 
 function App() {
-  const [count, setCount] = useState(0)
+  const [showAlert, setShowAlert] = useState(false)
+  const [showConfirm, setShowConfirm] = useState(false)
 
   return (
     <>
-      <div>
-        <a href="https://vite.dev" target="_blank">
-          <img src={viteLogo} className="logo" alt="Vite logo" />
-        </a>
-        <a href="https://react.dev" target="_blank">
-          <img src={reactLogo} className="logo react" alt="React logo" />
-        </a>
-      </div>
-      <h1>Vite + React</h1>
-      <div className="card">
-        <button onClick={() => setCount((count) => count + 1)}>
-          count is {count}
+      <div className='flex flex-col gap-3 items-center justify-center h-screen'>
+        <button onClick={() => setShowAlert(true)}>
+          Show Alert Modal
         </button>
-        <p>
-          Edit <code>src/App.tsx</code> and save to test HMR
-        </p>
+        <button onClick={() => setShowConfirm(true)}>
+          Show Confirm Modal
+        </button>
       </div>
-      <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
-      </p>
+      <SimpleModal
+        show={showAlert}
+        handleClose={() => setShowAlert(false)}
+        handleOk={() => setShowAlert(false)}
+      />
+      <SimpleModal
+        show={showConfirm}
+        showOk
+        title='Confirm?'
+        description='Are you sure you want to delete this item?'
+        okText='Yes'
+        closeText='No'
+        handleClose={() => setShowConfirm(false)}
+        handleOk={() => setShowConfirm(false)}
+      />
     </>
   )
 }
