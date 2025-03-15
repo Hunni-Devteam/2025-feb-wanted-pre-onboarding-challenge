@@ -6,6 +6,7 @@ function App() {
   const [showAlert, setShowAlert] = useState(false)
   const [showConfirm, setShowConfirm] = useState(false)
   const [showUserSelectorModal, setShowUserSelectorModal] = useState(false)
+  const [showSignUpModal, setShowSignUpModal] = useState(false)
 
   return (
     <>
@@ -18,6 +19,9 @@ function App() {
         </button>
         <button onClick={() => setShowUserSelectorModal(true)}>
           Show User Selector Modal
+        </button>
+        <button onClick={() => setShowSignUpModal(true)}>
+          Sign Up
         </button>
       </div>
       <SimpleModal
@@ -49,6 +53,23 @@ function App() {
           <button onClick={() => setShowUserSelectorModal(false)}>Select</button>
         }
         handleClose={() => setShowUserSelectorModal(false)}
+      />
+      <SimpleModal
+        show={showSignUpModal}
+        title="Sign Up"
+        Content={<div className="flex flex-col">
+          <form className="flex flex-col gap-4">
+            <input type="text" placeholder="Full Name" />
+            <input type="email" placeholder="Email" />
+            <input type="password" placeholder="Password" />
+            <input type="password" placeholder="Confirm Password" />
+          </form>
+        </div>
+        }
+        Footer={
+          <button onClick={() => setShowSignUpModal(false)}>Sign Up</button>
+        }
+        handleClose={() => setShowSignUpModal(false)}
       />
     </>
   )
