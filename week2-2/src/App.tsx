@@ -1,9 +1,10 @@
 import { useState } from 'react'
 import './App.css'
 import SimpleModal from './SimpleModal'
+import useModal from './useModal'
 
 function App() {
-  const [showAlert, setShowAlert] = useState(false)
+  const modal = useModal()
   const [showConfirm, setShowConfirm] = useState(false)
   const [showUserSelectorModal, setShowUserSelectorModal] = useState(false)
   const [showSignUpModal, setShowSignUpModal] = useState(false)
@@ -11,8 +12,16 @@ function App() {
   return (
     <>
       <div className='flex flex-col gap-3 items-center justify-center h-screen'>
-        <button onClick={() => setShowAlert(true)}>
-          Show Alert Modal
+        <button onClick={() => modal.open({
+          type: 'alert',
+          props: {
+            title: 'Alert',
+            description: 'This is a simple alert modal',
+            closeText: 'Close',
+            handleClose: () => modal.close(),
+          },
+        })}>
+          Show Alert Modal w/ useModal
         </button>
         <button onClick={() => setShowConfirm(true)}>
           Show Confirm Modal
@@ -24,11 +33,6 @@ function App() {
           Sign Up
         </button>
       </div>
-      <SimpleModal
-        show={showAlert}
-        handleClose={() => setShowAlert(false)}
-        handleOk={() => setShowAlert(false)}
-      />
       <SimpleModal
         show={showConfirm}
         showOk
