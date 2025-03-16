@@ -1,63 +1,51 @@
 /* eslint-disable react-refresh/only-export-components */
 import { createContext, PropsWithChildren, useContext, useState } from "react";
 import AlertModal, { AlertModalProps } from "./AlertModal";
-import { BaseModalProps } from "./types";
+import ConfirmModal, { ConfirmModalProps } from "./ConfirmModal";
 
+export type AllModals = AlertModalProps | ConfirmModalProps;
 
-export const useModal: <T extends BaseModalProps>() => {
-  open: (modal: T) => void;
-  close: () => void;
-  currentModal: BaseModalProps['type'] | null;
-} = () => {
+export const useModal = () => {
   const {
     currentModal,
     setCurrentModal,
-    setModalProps,
   } = useContext(ModalContext);
 
   return {
-    open: (modal: BaseModalProps) => {
-      setCurrentModal(modal.type);
-      setModalProps(modal.props);
+    open: (modal: AllModals) => {
+      setCurrentModal(modal);
     },
     close: () => {
       setCurrentModal(null);
-      setModalProps({});
     },
     currentModal,
   }
 }
 
 const ModalContext = createContext<{
-  currentModal: BaseModalProps['type'] | null;
-  setCurrentModal: (modal: BaseModalProps['type'] | null) => void;
-  modalProps: Record<string, unknown>;
-  setModalProps: (props: Record<string, unknown>) => void;
+  currentModal: AllModals | null;
+  setCurrentModal: (modal: AllModals | null) => void;
 }>({
   currentModal: null,
   setCurrentModal: () => {},
-  modalProps: {},
-  setModalProps: () => {},
 });
 
 const Modals = () => {
-  const { currentModal, modalProps } = useContext(ModalContext);
+  const { currentModal } = useContext(ModalContext);
 
   return <>
-    {currentModal === 'alert' && <AlertModal {...(modalProps as AlertModalProps['props'])} />}
+    {currentModal?.type === 'alert' && <AlertModal {...currentModal.props} />}
+    {currentModal?.type === 'confirm' && <ConfirmModal {...currentModal.props} />}
   </>
 }
 
 export const ModalProvider: React.FC<PropsWithChildren> = ({ children }) => {
-  const [currentModal, setCurrentModal] = useState<BaseModalProps['type'] | null>(null);
-  const [modalProps, setModalProps] = useState<Record<string, unknown>>({});
+  const [currentModal, setCurrentModal] = useState<AllModals | null>(null);
 
   return (
     <ModalContext.Provider value={{
       currentModal,
       setCurrentModal,
-      modalProps,
-      setModalProps
     }}>
       {children}
       <Modals />
