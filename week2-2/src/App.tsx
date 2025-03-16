@@ -2,6 +2,8 @@ import { useState } from 'react'
 import './App.css'
 import SimpleModal from './SimpleModal'
 import useModal from './useModal'
+import { FormBuilder } from './FormBuilder'
+import FormBuilderProps from './FormBuilderProps'
 
 function App() {
   const modal = useModal()
@@ -11,6 +13,11 @@ function App() {
   return (
     <>
       <div className='flex flex-col gap-3 items-center justify-center h-screen'>
+        <div className='flex flex-col gap-4 items-center justify-center p-6'>
+          {FormBuilderProps.map((form, index) => (
+            <FormBuilder key={index} {...form} />
+          ))}
+        </div>
         <button onClick={() => modal.open({
           props: {
             title: 'Alert',
