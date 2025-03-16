@@ -3,8 +3,12 @@ import { createContext, PropsWithChildren, useContext, useState } from "react";
 import AlertModal, { AlertModalProps } from "./AlertModal";
 import { BaseModalProps } from "./types";
 
-// <T extends BaseModalProps>() => [T, (modal: T) => void]
-export const useModal = () => {
+
+export const useModal: <T extends BaseModalProps>() => {
+  open: (modal: T) => void;
+  close: () => void;
+  currentModal: BaseModalProps['type'] | null;
+} = () => {
   const {
     currentModal,
     setCurrentModal,

@@ -2,9 +2,10 @@ import { useState } from 'react'
 import './App.css'
 import SimpleModal from './SimpleModal'
 import useModal from './useModal'
+import { AlertModalProps } from './AlertModal'
 
 function App() {
-  const modal = useModal()
+  const modal = useModal<AlertModalProps>()
   const [showConfirm, setShowConfirm] = useState(false)
   const [showUserSelectorModal, setShowUserSelectorModal] = useState(false)
   const [showSignUpModal, setShowSignUpModal] = useState(false)
